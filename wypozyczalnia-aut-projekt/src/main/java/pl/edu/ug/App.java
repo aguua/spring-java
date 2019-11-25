@@ -7,6 +7,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 
 public class App 
 {
@@ -172,64 +178,157 @@ public class App
 		pstmt.executeUpdate();
 		pstmt.close();
 	}
-	public static void ReadKlienci(Connection con) throws SQLException{
+	
+	public static void UpdateTable(Connection connection,boolean number, String table, String column, String value , String where_case) throws SQLException{
+		String sql = "update " + table + " set " + column + "='" + value+ "' where " + where_case;
+		if (number) {
+			sql = "update " + table + " set " + column + "=" + value + " where " + where_case;
+		} 
+		Statement st_new = connection.createStatement();
+		if (TableExists(connection, table)) {
+			st_new.executeUpdate(sql);
+		}
+	}
+	public static Map ReadKlienci(Connection con) throws SQLException{
 	    Statement st = con.createStatement();
-	    ResultSet rs = st.executeQuery("select * from klienci");
+	    String sql = "select k.id_klient, k.imie, k.nazwisko, k.pesel, a.ulica, a.kod_pocztowy, a.miasto "
+	    		+ "from klienci k, adresy a where  a.id_adres = k.id_adres";	    		
+	    ResultSet rs = st.executeQuery(sql);
 	    ResultSetMetaData rsmd = rs.getMetaData();
 	    int columnsNumber = rsmd.getColumnCount();
+	    Map dictionary = new HashMap();
 	    System.out.println("KLIENCI");
 	    while (rs.next()) {
+	    	Map dict = new HashMap();
 	    	int nr = rs.getInt("id_klient");
 	    	String imie = rs.getString("imie");
 	    	String nazwisko = rs.getString("nazwisko");
 	    	String pesel = rs.getString("pesel");
-	    	  System.out.println(nr + "  | " +imie+" | "+nazwisko+ " | "+ pesel+ "\n");
+	    	String ulica = rs.getString("ulica");
+	    	String kod = rs.getString("kod_pocztowy");
+	    	String miasto = rs.getString("miasto");
+	    	dict.put("imie",imie);
+	    	dict.put("nazwisko",nazwisko);
+	    	dict.put("pesel",pesel);
+	    	dict.put("ulica",ulica);
+	    	dict.put("kod",kod);
+	    	dict.put("miasto",miasto);
+	    	dictionary.put(nr, dict);
+	    	//System.out.println(nr + "  | " +imie+" | "+nazwisko+ " | "+ pesel+ " |  "+ ulica + " " + kod + " " + miasto+ "\n");
 	    	}
+	    //System.out.println(dictionary);
+	    return dictionary;
 	}
 	
-	public static void ReadPracownicy(Connection con) throws SQLException{
+	public static Map ReadPracownicy(Connection con) throws SQLException{
 	    Statement st = con.createStatement();
-	    ResultSet rs = st.executeQuery("select * from pracownicy");
+	    String sql = "select p.id_pracownik, p.imie, p.nazwisko, p.pesel, a.ulica, a.kod_pocztowy, a.miasto "
+	    		+ "from pracownicy p, adresy a where  a.id_adres = p.id_adres";
+	    ResultSet rs = st.executeQuery(sql);
 	    ResultSetMetaData rsmd = rs.getMetaData();
 	    int columnsNumber = rsmd.getColumnCount();
+	    Map dictionary = new HashMap();
 	    System.out.println("PRACOWNICY");
 	    while (rs.next()) {
+	    	Map dict = new HashMap();
 	    	int nr = rs.getInt("id_pracownik");
 	    	String imie = rs.getString("imie");
 	    	String nazwisko = rs.getString("nazwisko");
 	    	String pesel = rs.getString("pesel");
-	    	  System.out.println(nr + "  | " +imie+" | "+nazwisko+ " | "+ pesel+ "\n");
+	    	String ulica = rs.getString("ulica");
+	    	String kod = rs.getString("kod_pocztowy");
+	    	String miasto = rs.getString("miasto");
+	    	dict.put("imie",imie);
+	    	dict.put("nazwisko",nazwisko);
+	    	dict.put("pesel",pesel);
+	    	dict.put("ulica",ulica);
+	    	dict.put("kod",kod);
+	    	dict.put("miasto",miasto);
+	    	dictionary.put(nr, dict);
+	    	 // System.out.println(nr + "  | " +imie+" | "+nazwisko+ " | "+ pesel+ " |  "+ ulica + " " + kod + " " + miasto+ "\n");
 	    	}
+	    return dictionary;
 	}
 	
-	public static void ReadAdresy(Connection con) throws SQLException{
+	public static Map ReadAdresy(Connection con) throws SQLException{
 	    Statement st = con.createStatement();
 	    ResultSet rs = st.executeQuery("select * from adresy");
 	    ResultSetMetaData rsmd = rs.getMetaData();
 	    int columnsNumber = rsmd.getColumnCount();
+	    Map dictionary = new HashMap();
 	    System.out.println("ADRESY");
 	    while (rs.next()) {
+	    	Map dict = new HashMap();
 	    	int nr = rs.getInt("id_adres");
 	    	String ulica = rs.getString("ulica");
 	    	String kod = rs.getString("kod_pocztowy");
 	    	String miasto = rs.getString("miasto");
-	    	  System.out.println(nr + "  | " +ulica+" | "+kod+ " | "+ miasto+ "\n");
+	    	dict.put("ulica",ulica);
+	    	dict.put("kod",kod);
+	    	dict.put("miasto",miasto);
+	    	dictionary.put(nr,  dict);
+	    	//System.out.println(nr + "  | " +ulica+" | "+kod+ " | "+ miasto+ "\n");
 	    	}
+	    return dictionary;
 	}
-	public static void ReadAuta(Connection con) throws SQLException{
+	public static Map ReadAuta(Connection con) throws SQLException{
 	    Statement st = con.createStatement();
 	    ResultSet rs = st.executeQuery("select * from auta");
 	    ResultSetMetaData rsmd = rs.getMetaData();
 	    int columnsNumber = rsmd.getColumnCount();
+	    Map dictionary = new HashMap();
 	    System.out.println("AUTA");
 	    while (rs.next()) {
+	    	Map dict = new HashMap();
+		    List list = new ArrayList();
 	    	String nr = rs.getString("nr_rejestracyjny");
 	    	String marka = rs.getString("marka");
 	    	String model = rs.getString("model");
 	    	String paliwo = rs.getString("typ_paliwa");
 	    	double cena = rs.getDouble("cena_wyp");
-	    	  System.out.println(nr + "  | " +marka+" | "+model+ " | "+ paliwo+ " | "+ cena + "\n");
+	    	dict.put("marka", marka);
+	    	dict.put("model", model);
+	    	dict.put("paliwo", paliwo);
+	    	dict.put("cena", cena);
+
+		    dictionary.put(nr, dict);
+	    	//System.out.println(nr + "  | " +marka+" | "+model+ " | "+ paliwo+ " | "+ cena + "\n");
+
 	    	}
+    	//System.out.println(dictionary);
+    	return dictionary;
+	}
+	public static List ReadWypozyczenia(Connection con) throws SQLException{
+	    Statement st = con.createStatement();
+		String sql = "select w.nr_rejestracyjny,a.model, a.marka, p.nazwisko as pracownik ,k.nazwisko as klient, "
+				+ "w.data_wypozyczenia, w.data_zwrotu from\r\n" + 
+				"			wypozyczenia w, auta a, pracownicy p, klienci k \r\n" + 
+				"			where w.nr_rejestracyjny=a.nr_rejestracyjny and k.id_klient = w.id_klient and p.id_pracownik = w.id_pracownik";
+	    ResultSet rs = st.executeQuery(sql);
+	    ResultSetMetaData rsmd = rs.getMetaData();
+	    int columnsNumber = rsmd.getColumnCount();
+	    //System.out.println("WYPOZYCZENIA");
+	    List list = new ArrayList();
+	    while (rs.next()) {
+	    	Map dict = new HashMap();
+	    	String nr = rs.getString("nr_rejestracyjny");
+	    	String marka = rs.getString("marka");
+	    	String model = rs.getString("model");
+	    	String pracownik = rs.getString("pracownik");
+	    	String klient = rs.getString("klient");
+	    	String data_wyp = rs.getString("data_wypozyczenia");
+	    	String data_zwrotu = rs.getString("data_zwrotu");
+	    	dict.put("nr_rejestracyjny", nr);
+	    	dict.put("marka", marka);
+	    	dict.put("pracownik", pracownik);
+	    	dict.put("klient", klient);
+	    	dict.put("data_wyp", data_wyp);
+	    	dict.put("data_zwrotu", data_zwrotu);
+	    	list.add(dict);
+	    	
+	    	  //System.out.println(nr + "  | " +marka+" | "+model+ " | "+ pracownik+ " | "+ klient + " | " + data_wyp + "|" + data_zwrotu+"\n");
+	    	}
+	    return list;
 	}
 
 	public static void PrepareDB(Connection con) throws SQLException{
@@ -264,18 +363,21 @@ public class App
     	InsertIntoWypozyczenia(con, 1, 0, "WA982R09", "2019-10-02", "2019-10-12");
     	InsertIntoWypozyczenia(con, 2, 1, "GDA298K32", "2019-11-10", "2019-11-15");
 	}
-	
+
     public static void main( String[] args ) throws SQLException
     {
         Connection con = GetConnection();
         
-       //DropAllTables(con);
+        //DropAllTables(con);
 
         //PrepareDB(con);
-        ReadKlienci(con);
-        ReadPracownicy(con);
-        ReadAdresy(con);
-        ReadAuta(con);
+        //ReadKlienci(con);
+        //ReadPracownicy(con);
+        //ReadAdresy(con);
+        //ReadAuta(con);
+        //ReadWypozyczenia(con);
+        UpdateTable(con,false, "adresy", "ulica", "Nowa ulica", "id_adres = 0");
+        UpdateTable(con, true, "wypozyczenia", "id_pracownik", "1", "id_wypozyczenie = 0");
         
     }
 }
