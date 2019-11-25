@@ -1,4 +1,4 @@
-package pl.edu.ug;
+package pl.edu.ug.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 
-public class App 
+public class WypozyczalniaJDBC 
 {
     
 	public static Connection GetConnection()  throws SQLException {
@@ -100,14 +100,12 @@ public class App
 			st_new.executeUpdate("CREATE TABLE WYPOZYCZENIA(\r\n" + 
 	    		"id_wypozyczenie int identity not null,\r\n" + 
 	    		"data_wypozyczenia date not null,\r\n" + 
-	    		"data_zwrotu date null,\r\n" + 
-	    		"id_pracownik int not null,\r\n" + 
+	    		"data_zwrotu date not null, \r\n"+
 	    		"id_klient int not null,\r\n" + 
 	    		"nr_rejestracyjny varchar(10) not null,\r\n" + 
 	    		"primary key (id_wypozyczenie)\r\n" + 
 	    		")\r\n" + 
 	    		"");
-			st_new.executeUpdate("ALTER TABLE wypozyczenia ADD FOREIGN KEY (id_pracownik) references PRACOWNICY(id_pracownik)");
 			st_new.executeUpdate("ALTER TABLE wypozyczenia ADD FOREIGN KEY (id_klient) references KLIENCI(id_klient)");
 			st_new.executeUpdate("ALTER TABLE wypozyczenia ADD FOREIGN KEY (nr_rejestracyjny) references AUTA(nr_rejestracyjny)");
 
@@ -167,14 +165,13 @@ public class App
 		pstmt.close();
 	}
 	
-	public static void InsertIntoWypozyczenia(Connection connection, int klient, int pracownik, String auto, String data_wyp, String data_zwrotu) throws SQLException{
+	public static void InsertIntoWypozyczenia(Connection connection, int klient,  String auto, String data_wyp, String data_zwrotu) throws SQLException{
 		PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wypozyczenia("
-				+ "data_wypozyczenia, data_zwrotu, id_pracownik, id_klient, nr_rejestracyjny) VALUES (?,?,?,?,?)");
+				+ "data_wypozyczenia, data_zwrotu, id_klient, nr_rejestracyjny) VALUES (?,?,?,?)");
 		pstmt.setString(1, data_wyp);
 		pstmt.setString(2, data_zwrotu);
-		pstmt.setInt(3, pracownik);
-		pstmt.setInt(4, klient);
-		pstmt.setString(5, auto);		
+		pstmt.setInt(3, klient);
+		pstmt.setString(4, auto);		
 		pstmt.executeUpdate();
 		pstmt.close();
 	}
@@ -333,6 +330,8 @@ public class App
 
 	public static void PrepareDB(Connection con) throws SQLException{
         
+		DropAllTables(con);
+		
 		CreateTableAdresy(con);
         CreateTableAuta(con);
         CreateTableKlienci(con);
@@ -359,25 +358,11 @@ public class App
     	InsertIntoAuta(con, "GDA298K32", "Opel", "Corsa", "benzyna", 20.00);
     	InsertIntoAuta(con, "GD909I12", "Skoda", "Fabia", "gaz", 30.00);
        
-    	InsertIntoWypozyczenia(con, 0, 0, "GDA20D91", "2019-11-20", "2019-11-22");
-    	InsertIntoWypozyczenia(con, 1, 0, "WA982R09", "2019-10-02", "2019-10-12");
-    	InsertIntoWypozyczenia(con, 2, 1, "GDA298K32", "2019-11-10", "2019-11-15");
+    	//InsertIntoWypozyczenia(con, 0,  "GDA20D91", "2019-11-20", "2019-11-22");
+    	//InsertIntoWypozyczenia(con, 1,  "WA982R09", "2019-10-02", "2019-10-12");
+    	//InsertIntoWypozyczenia(con, 2,  "GDA298K32", "2019-11-10", "2019-11-15");
 	}
 
-    public static void main( String[] args ) throws SQLException
-    {
-        Connection con = GetConnection();
-        
-        //DropAllTables(con);
 
-        //PrepareDB(con);
-        //ReadKlienci(con);
-        //ReadPracownicy(con);
-        //ReadAdresy(con);
-        //ReadAuta(con);
-        //ReadWypozyczenia(con);
-        UpdateTable(con,false, "adresy", "ulica", "Nowa ulica", "id_adres = 0");
-        UpdateTable(con, true, "wypozyczenia", "id_pracownik", "1", "id_wypozyczenie = 0");
-        
-    }
+
 }
