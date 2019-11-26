@@ -7,7 +7,7 @@ public class Klient {
 	  private String pesel;
 
 	  public Klient(int id, String imie, String nazwisko, String pesel) {
-		  this.id_klient = id;
+		this.id_klient = id;
 		this.imie = imie;
 		this.nazwisko = nazwisko;
 		this.pesel = pesel;

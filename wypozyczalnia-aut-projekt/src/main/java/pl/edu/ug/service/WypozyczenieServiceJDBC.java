@@ -84,8 +84,6 @@ public class WypozyczenieServiceJDBC implements WypozyczenieService{
 			  insertPST.setString(3,wypozyczenie.getData_zwrotu());
 			  insertPST.setLong(4, wypozyczenie.getKlient().getId_klient());
 			  insertPST.setString(5,  wypozyczenie.getAuto().getNr_rejestracyjny());
-			  
-			  
 			  insertPST.executeUpdate();
 			  
 		  }catch (SQLException e) {
