@@ -12,7 +12,10 @@ public class Library implements IBook {
 	
 	private List<String> library;
 	private int num;
-	@Value("${spring.mail.host}") String host;  //wczytana wartosc z application.properties
+	
+	@Value("${spring.mail.host}") 		// lepiej zrobić wstrzyknięcie tej wartości w kontruktorze 
+	String host;  								//wczytana wartosc z application.properties
+												//a property placeholder (${…})
 	
 	//@Autowired   --domyslnie uzywany jest ten konstruktor 
 	public Library()
@@ -30,6 +33,7 @@ public class Library implements IBook {
 	}
 	public void addBook(@Value("Pan Tadeusz") String book_title) {
 		library.add(book_title);
+		num++;
 		System.out.println("in add,  n = " + num);
 	}
 	public String getHost() {
