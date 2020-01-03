@@ -1,15 +1,13 @@
-package pl.edu.ug.springdemo;
+package pl.edu.ug.demospring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import pl.edu.ug.springdemo.domain.Library;
-
 @SpringBootApplication
-public class SpringdemoApplication {
+public class DemospringApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Library.class, args);
+		SpringApplication.run(DemospringApplication.class, args);
 	}
 
 }
