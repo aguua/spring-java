@@ -15,7 +15,7 @@ public class Klient {
 	  private String imie;
 	  private String nazwisko;
 
-	  protected Klient() {}
+	  public Klient() {}
 	  
 	  public Klient(String imie, String nazwisko) {
 		this.imie = imie;
