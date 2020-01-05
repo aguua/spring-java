@@ -49,6 +49,9 @@ public class AutoManager {
 			autoRepository.deleteById(id);
 		}
 	}
+	public void deleteAll() {
+		autoRepository.deleteAll();
+	}
 	
 	//Other operation
 	public Auto getByNrRejestracyjny(String nrRejestracyjny) {

@@ -35,7 +35,8 @@ public class AutoManagerTest {
     public void clearDBinsertOneAuto() { 
 		autoRepository.deleteAll();
 		Auto auto = new Auto("CCH67TRT", "Ford", "Focus", Paliwo.benzyna, 40);
-		autoManager.addAuto(auto);}
+		autoManager.addAuto(auto);
+		}
 	 
 	@Test
 	public void testAddAuto() {
@@ -98,7 +99,7 @@ public class AutoManagerTest {
 			autoToUpdate.setTyp_paliwa(Paliwo.gaz);
 			autoManager.updateAuto(id, autoToUpdate);
 			
-			 Optional<Auto> autoAfterUpdate = autoManager.getById(id);
+			Optional<Auto> autoAfterUpdate = autoManager.getById(id);
 			assertEquals("Optional["+autoToUpdate.toString()+"]", autoAfterUpdate.toString());
 
 		 

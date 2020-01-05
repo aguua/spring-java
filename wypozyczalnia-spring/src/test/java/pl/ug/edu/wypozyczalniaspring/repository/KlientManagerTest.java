@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +46,6 @@ public class KlientManagerTest {
 	public void testFindByNazwisko() {
 		String nazwisko = "Nowak";
 		assertNotNull(klientManager.getByNazwisko(nazwisko));
-		
 	}
 	
 	@Test
@@ -55,8 +56,19 @@ public class KlientManagerTest {
 	    assertTrue(klientManager.getById(id).isPresent());
 	    klientRepository.deleteById(id);
 	    assertFalse(klientManager.getById(id).isPresent());
-		
 	}
 
+	@Test
+	public void testUpdateKlient() {
+		Klient klient = new Klient("Anna", "Nowojorska");
+		klientManager.addKlient(klient);
+	    final Long id = klient.getId_klient();
+	    klient.setNazwisko("Nowojorska-Mazurek");
+	    klientManager.updateKlient(id, klient);
+	    Optional<Klient> klientAfterUpdate = klientManager.getById(id);
+	    assertEquals("Optional["+klient.toString()+"]", klientAfterUpdate.toString());
+
+	    
+	}
 
 }

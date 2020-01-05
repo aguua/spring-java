@@ -49,6 +49,9 @@ private KlientRepository klientRepository;
 			klientRepository.deleteById(id);
 		}
 	}
+	public void deleteAll() {
+		klientRepository.deleteAll();
+	}
 	public List<Klient> getByNazwisko(String nazwisko) {
 		return klientRepository.findByNazwisko(nazwisko);
 	}
