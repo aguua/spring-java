@@ -24,6 +24,7 @@ public class Auto {
 	private Paliwo typPaliwa;
 	private double cena;
 	
+	protected Auto() {}
 	public Auto(String nr_rejestracyjny, String marka, String model, Paliwo typ_paliwa, double cena) {
 		super();
 		this.nrRejestracyjny = nr_rejestracyjny;
