@@ -22,7 +22,10 @@ public class AutoManager {
 	}
 	
 	//CRUD
-	public Optional<Auto> findById(long id) {
+	public Auto getOne(long id) {
+		return autoRepository.getOne(id);
+	}
+	public Optional<Auto> getById(long id) {
 		return autoRepository.findById(id);
 	}
 	public List<Auto> getAll(){
@@ -41,15 +44,17 @@ public class AutoManager {
 	public void updateAuto(Long id, Auto auto) {
 		autoRepository.save(auto);
 	}
-	public void deleteAuto(Long id) {
-		autoRepository.deleteById(id);
+	public void deleteAutoById(Long id) {
+		if(autoRepository.findById(id).isPresent()){
+			autoRepository.deleteById(id);
+		}
 	}
 	
 	//Other operation
-	public Auto findByNrRejestracyjny(String nrRejestracyjny) {
+	public Auto getByNrRejestracyjny(String nrRejestracyjny) {
 		return autoRepository.findByNrRejestracyjny(nrRejestracyjny);
 	}
-	public List<Auto> findByMarka(String marka){
+	public List<Auto> getByMarka(String marka){
 		List<Auto> auta = new ArrayList<>();
 		autoRepository.findByMarka(marka).forEach(auta::add);
 		return auta;
