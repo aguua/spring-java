@@ -1,12 +1,7 @@
 package pl.ug.edu.wypozyczalniaspring;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import pl.ug.edu.wypozyczalniaspring.model.Klient;
-import pl.ug.edu.wypozyczalniaspring.repository.KlientRepository;
 
 @SpringBootApplication
 public class WypozyczalniaSpringApplication {
@@ -14,7 +9,7 @@ public class WypozyczalniaSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WypozyczalniaSpringApplication.class, args);
 	}
-	
+	/*
 	@Bean
 	  public CommandLineRunner demo(KlientRepository repository) {
 	    return (args) -> {
@@ -32,6 +27,6 @@ public class WypozyczalniaSpringApplication {
 	        System.out.print(klient.toString());
 	      }
 	    };
-	  }
+	  }*/
 
 	}
