@@ -1,4 +1,4 @@
-package pl.ug.edu.wypozyczeniaspring.service;
+package pl.ug.edu.wypozyczalniaspring.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,13 @@ import pl.ug.edu.wypozyczalniaspring.repository.AutoRepository;
 @Service
 public class AutoManager {
 
-	@Autowired
+	
 	private AutoRepository autoRepository;
+	
+	@Autowired
+	public AutoManager(AutoRepository autoRepository) {
+		this.autoRepository = autoRepository;
+	}
 	
 	//CRUD
 	public Optional<Auto> findById(long id) {

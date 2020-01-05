@@ -8,17 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.springframework.stereotype.Component;
-
-@Component
 @Entity
 public class Auto {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id_auto;
-	
-	@Column(unique = true)
+
+
+	@Column(unique = true, nullable=false)
 	private String nrRejestracyjny;
 	private String marka;
 	private String model;
@@ -27,7 +25,7 @@ public class Auto {
 	private Paliwo typPaliwa;
 	private double cena;
 	
-	protected Auto() {}
+	public Auto() {}
 	public Auto(String nr_rejestracyjny, String marka, String model, Paliwo typ_paliwa, double cena) {
 		super();
 		this.nrRejestracyjny = nr_rejestracyjny;
@@ -36,6 +34,13 @@ public class Auto {
 		
 		this.typPaliwa = typ_paliwa;
 		this.cena = cena;
+	}
+	
+	public Long getId_auto() {
+		return id_auto;
+	}
+	public void setId_auto(Long id_auto) {
+		this.id_auto = id_auto;
 	}
 
 	public String getNr_rejestracyjny() {
